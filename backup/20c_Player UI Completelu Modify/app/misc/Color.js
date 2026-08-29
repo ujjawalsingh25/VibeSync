@@ -1,0 +1,24 @@
+
+const color = {
+    APP_BG: '#fff',
+    FONT: '#303d49',
+    FONT_MEDIUM: '#636363',
+    FONT_LIGHT: '#b6b8b9',
+    MODAL_BG: 'rgba(0, 0, 0, 0.2)',
+    ACTIVE_BG: '#5252ad',
+    ACTIVE_FONT: '#fff',
+
+    primaryColor: 'white',
+    secondaryColor : 'grey',
+    backgroundColor1: 'black',
+    backgroundColor2: '#0f0f0f',
+    themecol: '#00C4CC',
+    myBlack: '#212121',
+    myWhite: '#c9c9c9',
+    myWhiteBG: '#fffefd',
+    SnowWhite: '#f5fefd',
+    darkThemeText: '#8e8e8e',
+    darkThemeBG: '#fbfbf9',
+};
+  
+export default color;
