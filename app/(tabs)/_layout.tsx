@@ -7,30 +7,16 @@ import Songs from './songs';
 import Sync from './sync';
 import Discover from './discover';
 import Profile from './profile';
+import { HeaderDiscover, HeaderLogo } from '@/app/components/Headers';
 
 import Ionicons from '@expo/vector-icons/Ionicons';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
-import { Image, View } from 'react-native';
 
 
 const Tab = createBottomTabNavigator()
-
-const HeaderLogo = () => (
-    <View style={{width: '100%', height: '85%',
-        backgroundColor: '#fff', alignItems: 'flex-end', justifyContent: 'center',
-        zIndex: 10, borderColor: '#E0E0E0', borderWidth: 2,}}
-    >
-        <Image
-          source={require('@/assets/images/logoTitle_LightTheme.png')}
-          style={{width: '80%', height: '70%', resizeMode: 'contain',
-            marginLeft: 'auto', marginRight: 'auto', marginTop: '6%',}}
-        />
-    </View>
-);
-
 
 const TabLayout = () => {
 
@@ -74,7 +60,7 @@ const TabLayout = () => {
                 tabBarIcon: ( {color, size} ) => ( <FontAwesome6 name="compass" size={size} color={color} /> ),
                 headerTitleAlign: 'center',
                 headerTitle: '',
-                headerBackground: () => <HeaderLogo />,
+                headerLeft: () => <HeaderDiscover />,
             }} 
         />
         <Tab.Screen 
