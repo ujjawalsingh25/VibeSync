@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "VibeSync_DevMode",
-    "slug": "VibeSync_DevMode",
+    "name": "VibeSync",
+    "slug": "VibeSync",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/logo/main_logo_lightTheme.png",
@@ -19,7 +19,7 @@
         "monochromeImage": "./assets/logo/main_logo_lightTheme.png"
       },
       "predictiveBackGestureEnabled": false,
-      "package": "com.anonymous.VibeSync_DevMode",
+      "package": "com.anonymous.VibeSync",
       "permissions": [
         "android.permission.READ_EXTERNAL_STORAGE",
         "android.permission.WRITE_EXTERNAL_STORAGE",

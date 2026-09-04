@@ -6,6 +6,8 @@ import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
 import { WebView } from "react-native-webview";
 
 const DiscoverScreen = () => {
+  let colorTheme = "light";
+
   const [onlinePlayerLink, setOnlinePlayerLink] = useState<string | null>(null);
 
   const openPlayer = (link: string) => {
@@ -142,6 +144,7 @@ const styles = StyleSheet.create({
   playingSong: {
     fontSize: 22,
     fontWeight: "600",
+    // color: "white",        // Dark theme
   },
   playingSongName: {
     fontSize: 18,
@@ -171,6 +174,7 @@ const styles = StyleSheet.create({
   container: {
     // flex: 1,
     backgroundColor: "#F8F8F8",
+    // backgroundColor: "#313131",       // Dark theme
   },
   break: {
     height: 1,
@@ -185,6 +189,7 @@ const styles = StyleSheet.create({
   },
   optionContainer: {
     backgroundColor: "white",
+    // backgroundColor: "#313131",       // Dark theme
     padding: 10,
     borderRadius: 10,
   },

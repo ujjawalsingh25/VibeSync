@@ -9,6 +9,7 @@ interface OnlinePlayersProps {
 }
 
 const OnlinePlayers = ({playerName, playerImg, playerLink, onPress} : OnlinePlayersProps) => {
+    let colorTheme = "light";
 
     return (
         <>
@@ -60,5 +61,6 @@ const styles = StyleSheet.create({
         fontWeight: "500",
         textAlign: 'center',
         marginTop: 8,
+        // color: '#E0E0E0'    // Dark theme
     },
 });

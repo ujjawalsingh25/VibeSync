@@ -8,7 +8,7 @@ import AppTabs from "@/components/app-tabs";
 SplashScreen.preventAutoHideAsync();
 
 export default function TabLayout() {
-  const colorScheme = "dark";
+  let colorScheme = "light";
   return (
     <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
       <AnimatedSplashOverlay />

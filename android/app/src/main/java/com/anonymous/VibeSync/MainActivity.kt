@@ -1,4 +1,4 @@
-package com.anonymous.VibeSync_DevMode
+package com.anonymous.VibeSync
 import expo.modules.splashscreen.SplashScreenManager
 
 import android.os.Build

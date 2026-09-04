@@ -8,7 +8,7 @@ export const HeaderLogo = () => (
     <View style={styles.headerLogoContainer}
     >
         <Image
-          source={require('@/assets/images/logoTitle_LightTheme.png')}
+          source={require('@/assets/logo/logoTitle_LightTheme.png')}
           style={styles.headerImg}
         />
     </View>
@@ -19,7 +19,7 @@ export const HeaderDiscover = () => (
         <View style={styles.discoverHeaderContainer}
         >
             <Image
-            source={require('@/assets/images/logoTitle_LightTheme.png')}
+            source={require('@/assets/logo/logoTitle_LightTheme.png')}
             style={styles.discoverImg}
             />
         </View>
@@ -34,7 +34,7 @@ export const HeaderDiscover = () => (
 const styles = StyleSheet.create({
     headerLogoContainer:{
         width: '100%', 
-        height: '85%',
+        height: '10%',
         backgroundColor: '#fff', 
         alignItems: 'flex-end', 
         justifyContent: 'center',

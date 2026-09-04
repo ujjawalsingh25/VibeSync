@@ -7,13 +7,14 @@ import {
   View,
 } from "react-native";
 
-// import Entypo from 'react-native-vector-icons/Entypo';
 import AntDesign from "@expo/vector-icons/AntDesign";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 
 const ProfileScreen = () => {
+  let colorTheme = "light";
+
   return (
     <View style={styles.container}>
       <ScrollView>
@@ -173,6 +174,7 @@ const styles = StyleSheet.create({
   accountName: {
     fontSize: 22,
     fontWeight: "600",
+    // color: "white",     // Dark Theme
   },
   accountStatus: {
     fontSize: 16,
@@ -189,6 +191,7 @@ const styles = StyleSheet.create({
   container: {
     // flex: 1,
     backgroundColor: "#F8F8F8",
+    // backgroundColor: "#313131",       // Dark theme
   },
   break: {
     height: 1,
@@ -203,6 +206,7 @@ const styles = StyleSheet.create({
   },
   optionContainer: {
     backgroundColor: "white",
+    // backgroundColor: "#212121",      // Dark theme
     padding: 10,
     borderRadius: 10,
   },
@@ -243,6 +247,7 @@ const styles = StyleSheet.create({
   optionTxt: {
     fontSize: 16,
     fontWeight: "500",
+    // color: '#E0E0E0'    // Dark theme
   },
   optionsSubTxt: {
     marginTop: 7,

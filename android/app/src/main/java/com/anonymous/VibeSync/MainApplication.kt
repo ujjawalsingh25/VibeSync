@@ -1,4 +1,4 @@
-package com.anonymous.VibeSync_DevMode
+package com.anonymous.VibeSync
 
 import android.app.Application
 import android.content.res.Configuration
