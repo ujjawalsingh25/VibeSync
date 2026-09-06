@@ -1,5 +1,6 @@
 import React from 'react'
 import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
+import { useToggleThemeStore } from '../../store/toggleThemeStore';
 
 interface OnlinePlayersProps {
   playerName: string;
@@ -9,7 +10,8 @@ interface OnlinePlayersProps {
 }
 
 const OnlinePlayers = ({playerName, playerImg, playerLink, onPress} : OnlinePlayersProps) => {
-    let colorTheme = "light";
+    // let colorTheme = "light";
+    const colorTheme = useToggleThemeStore((state) => state.colorTheme);
 
     return (
         <>
@@ -24,7 +26,10 @@ const OnlinePlayers = ({playerName, playerImg, playerLink, onPress} : OnlinePlay
                             style={styles.playerImg}
                         />
                     </View>
-                    <Text style={styles.playerName}>{playerName}</Text>
+                    <Text style={[
+                        styles.playerName,
+                        {color: colorTheme === "dark" ? "#E0E0E0" : "black"}
+                    ]}>{playerName}</Text>
                 </Pressable>
             </View>
         </>

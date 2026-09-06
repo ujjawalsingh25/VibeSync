@@ -5,14 +5,11 @@ import { useAudioStore } from "../../store/audioStore";
 
 const Songs = () => {
   const audioFiles = useAudioStore((state) => state.audioFiles);
-
   const permissionError = useAudioStore((state) => state.permissionError);
-
   const loading = useAudioStore((state) => state.loading);
-
   const getPermission = useAudioStore((state) => state.getPermission);
 
-  useEffect(() => {
+  useEffect(() => { 
     getPermission();
   }, []);
 

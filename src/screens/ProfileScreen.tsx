@@ -1,25 +1,40 @@
-import {
-  Image,
-  Pressable,
-  ScrollView,
-  StyleSheet,
-  Text,
-  View,
-} from "react-native";
+import { Image, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 
+import Entypo from '@expo/vector-icons/Entypo';
 import AntDesign from "@expo/vector-icons/AntDesign";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
-import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
+import { useToggleThemeStore } from "../../store/toggleThemeStore";
+import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
+
 
 const ProfileScreen = () => {
-  let colorTheme = "light";
+  // let colorTheme = "dark";
+  const colorTheme = useToggleThemeStore((state) => state.colorTheme);
+  const toggleTheme = useToggleThemeStore((state) => state.toggleTheme);
+
+  const themedStyles = {
+    optionContainer: {
+      backgroundColor: colorTheme === "dark" ? "#212121" : "white",
+    },
+    optionTxt: {
+      color: colorTheme === "dark" ? "#E0E0E0" : "black",
+    },
+    optionsSubTxt: {
+      color: colorTheme === "dark" ? "#BDBDBD" : "#666666",
+    },
+  };
 
   return (
-    <View style={styles.container}>
+    <View style={[
+      styles.container, 
+      {backgroundColor: colorTheme === "dark" ? "#0D0D12" : "#F8F8F8"},
+    ]}>
       <ScrollView>
         <View style={{ padding: 12 }}>
-          <View style={styles.optionContainer}>
+          <View style={[
+            styles.optionContainer, themedStyles.optionContainer
+          ]}>
             <View style={[styles.option3, { marginTop: 0 }]}>
               <Image
                 style={styles.accountImg}
@@ -28,7 +43,10 @@ const ProfileScreen = () => {
                 }}
               />
               <View style={{}}>
-                <Text style={styles.accountName}>Ujjawal Singh</Text>
+                <Text style={[
+                  styles.accountName, 
+                  {color: colorTheme === "dark" ? "white" : "black"}
+                ]}>Ujjawal Singh</Text>
                 <Text style={styles.accountStatus}>
                   Status that the user added..!!
                 </Text>
@@ -41,7 +59,9 @@ const ProfileScreen = () => {
                 <FontAwesome name="credit-card" size={28} color="green" />
               </View>
               <View style={{}}>
-                <Text style={styles.optionTxt}>Subscription</Text>
+                <Text style={[
+                  styles.optionTxt, themedStyles.optionTxt
+                ]}>Subscription</Text>
                 <Text style={styles.optionsSubTxt}>
                   View Transactions & Receipts
                 </Text>
@@ -49,12 +69,38 @@ const ProfileScreen = () => {
             </View>
             <View style={styles.break2} />
 
+
+            {/* Change of Theme */}
+            <Pressable   onPress={toggleTheme} >
+              <View style={styles.option}>
+                <View style={styles.icon}>
+                  {colorTheme === 'dark' 
+                    ? <Entypo name="light-up" size={28} color="green" />  
+                    : <MaterialIcons name="dark-mode" size={28} color="green" />  
+                  }
+                </View>
+                <View style={{}}>
+                  <Text style={[
+                    styles.optionTxt, themedStyles.optionTxt
+                  ]}>{colorTheme === "dark" ? "Light Theme" : "Dark Theme"}</Text>
+                  <Text style={styles.optionsSubTxt}>
+                    {colorTheme === 'dark' ? "Switch the theme to light mode" : "Switch the theme to dark mode"}
+                  </Text>
+                </View>
+              </View>
+            </Pressable>
+            <View style={styles.break2} />
+            <View style={styles.break2} />
+
+
             <View style={styles.option}>
               <View style={styles.icon}>
-                <MaterialIcons name="groups" size={28} color="green" />
+                <FontAwesome name="group" size={28} color="green" />
               </View>
               <View style={{}}>
-                <Text style={styles.optionTxt}>Rooms</Text>
+                <Text style={[
+                  styles.optionTxt, themedStyles.optionTxt
+                ]}>Rooms</Text>
                 <Text style={styles.optionsSubTxt}>View & Manage Players</Text>
               </View>
             </View>
@@ -65,7 +111,9 @@ const ProfileScreen = () => {
                 <FontAwesome name="wechat" size={28} color="green" />
               </View>
               <View style={{}}>
-                <Text style={styles.optionTxt}>Chats & Blogs</Text>
+                <Text style={[
+                  styles.optionTxt, themedStyles.optionTxt
+                ]}>Chats & Blogs</Text>
                 <Text style={styles.optionsSubTxt}>
                   Connect with players & Share photos
                 </Text>
@@ -82,7 +130,9 @@ const ProfileScreen = () => {
                 />
               </View>
               <View style={{}}>
-                <Text style={styles.optionTxt}>Preference and Privacy</Text>
+                <Text style={[
+                  styles.optionTxt, themedStyles.optionTxt
+                ]}>Preference and Privacy</Text>
                 <Text style={styles.optionsSubTxt}>
                   Who can access your account?
                 </Text>
@@ -92,13 +142,17 @@ const ProfileScreen = () => {
         </View>
 
         <View style={{ padding: 12 }}>
-          <View style={styles.optionContainer}>
+          <View style={[
+            styles.optionContainer, themedStyles.optionContainer
+          ]}>
             <View style={[styles.option3, { marginTop: 0 }]}>
               <View style={styles.icon}>
                 <MaterialCommunityIcons name="offer" size={30} color="green" />
               </View>
               <View style={{}}>
-                <Text style={styles.optionTxt}>Offers</Text>
+                <Text style={[
+                  styles.optionTxt, themedStyles.optionTxt
+                ]}>Offers</Text>
                 <Text style={styles.optionsSubTxt}>
                   Get coupons and new offers
                 </Text>
@@ -111,7 +165,9 @@ const ProfileScreen = () => {
                 <MaterialIcons name="account-balance" size={30} color="green" />
               </View>
               <View style={{}}>
-                <Text style={styles.optionTxt}>Paasbook</Text>
+                <Text style={[
+                  styles.optionTxt, themedStyles.optionTxt
+                ]}>Paasbook</Text>
                 <Text style={styles.optionsSubTxt}>
                   Manage TurfCredits and Account balance
                 </Text>
@@ -124,7 +180,9 @@ const ProfileScreen = () => {
                 <AntDesign name="user-add" size={30} color="green" />
               </View>
               <View style={{}}>
-                <Text style={styles.optionTxt}>Invite & Earn</Text>
+                <Text style={[
+                  styles.optionTxt, themedStyles.optionTxt
+                ]}>Invite & Earn</Text>
                 <Text style={styles.optionsSubTxt}>
                   Send referrals and get benifits
                 </Text>
@@ -137,7 +195,9 @@ const ProfileScreen = () => {
                 <MaterialIcons name="support-agent" size={30} color="green" />
               </View>
               <View style={{}}>
-                <Text style={styles.optionTxt}>Help & Support</Text>
+                <Text  style={[
+                  styles.optionTxt, themedStyles.optionTxt
+                ]}>Help & Support</Text>
                 <Text style={styles.optionsSubTxt}>
                   We are here to assits you
                 </Text>
@@ -150,7 +210,9 @@ const ProfileScreen = () => {
                 <MaterialCommunityIcons name="logout" size={30} color="green" />
               </View>
               <Pressable>
-                <Text style={styles.optionTxt}>Logout</Text>
+                <Text style={[
+                  styles.optionTxt, themedStyles.optionTxt
+                ]}>Logout</Text>
                 <Text style={styles.optionsSubTxt}>
                   Login to another account
                 </Text>
@@ -190,7 +252,7 @@ const styles = StyleSheet.create({
   },
   container: {
     // flex: 1,
-    backgroundColor: "#F8F8F8",
+    // backgroundColor: "#F8F8F8",
     // backgroundColor: "#313131",       // Dark theme
   },
   break: {
@@ -205,10 +267,10 @@ const styles = StyleSheet.create({
     borderWidth: 0.5,
   },
   optionContainer: {
-    backgroundColor: "white",
+    // backgroundColor: "white",
     // backgroundColor: "#212121",      // Dark theme
     padding: 10,
-    borderRadius: 10,
+    borderRadius: 15,
   },
   option: {
     flexDirection: "row",

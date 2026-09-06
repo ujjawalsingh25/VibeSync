@@ -1,21 +1,25 @@
-import { VectorIcon } from "expo-router";
+import { useSegments, VectorIcon } from "expo-router";
 import { NativeTabs } from "expo-router/unstable-native-tabs";
 
 
 import Ionicons from '@expo/vector-icons/Ionicons';
-import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
-import { HeaderLogo } from "@/screens/Headers";
+import { HeaderDiscover, HeaderLogo } from "@/screens/Headers";
+import { useToggleThemeStore } from "../../store/toggleThemeStore";
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 
 
 export default function AppTabs() {
-  let colorTheme = "light";
+  // let colorTheme = "dark";
+  const colorTheme = useToggleThemeStore((state) => state.colorTheme);
+  const segments = useSegments();
+  const currentTab = segments[segments.length - 1];
 
   return (
     <>
-      <HeaderLogo />
+      {currentTab === "discover" ? <HeaderDiscover /> : <HeaderLogo />}
       <NativeTabs
         backgroundColor={colorTheme === "dark" ? "#181818" : "#F2F2F2"}
         indicatorColor={colorTheme === "dark" ? "#164E5A" : "#164E5A"}

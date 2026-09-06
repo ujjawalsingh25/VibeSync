@@ -1,12 +1,17 @@
+import { useEffect, useState } from "react";
+import { WebView } from "react-native-webview";
+import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
+
 import OnlinePlayers from "@/components/OnlinePlayers";
+import { useToggleThemeStore } from "../../store/toggleThemeStore";
+
 import Entypo from "@expo/vector-icons/Entypo";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
-import { useEffect, useState } from "react";
-import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
-import { WebView } from "react-native-webview";
+
 
 const DiscoverScreen = () => {
-  let colorTheme = "light";
+  // let colorTheme = "light";
+  const colorTheme = useToggleThemeStore((state) => state.colorTheme);
 
   const [onlinePlayerLink, setOnlinePlayerLink] = useState<string | null>(null);
 
@@ -32,10 +37,16 @@ const DiscoverScreen = () => {
   }
 
   return (
-    <View style={styles.container}>
+    <View style={[
+      styles.container, 
+      { backgroundColor: colorTheme === "dark" ? "#0D0D12" : "#F8F8F8"},
+    ]}>
       <ScrollView>
         <View style={{ padding: 12 }}>
-          <View style={styles.optionContainer}>
+          <View style={[
+            styles.optionContainer, 
+            { backgroundColor: colorTheme === "dark" ? "#212121" : "white"},
+          ]}>
             <View style={[styles.option3, { marginTop: 0 }]}>
               <Image
                 style={styles.playingSongImg}
@@ -46,18 +57,22 @@ const DiscoverScreen = () => {
                   Duniyaa - Akhil & Dhvani Bhanushali
                 </Text>
                 <View style={styles.playingButtonsContainer}>
-                  <Text style={styles.playingSong}>Now Playing</Text>
+                  <Text style={[
+                    styles.playingSong, 
+                    {color: colorTheme === "dark" ? "white" : "black"}
+                  ]}>Now Playing</Text>
                   <View style={styles.playerButtons}>
                     <Entypo
-                      name="controller-fast-backward"
-                      size={30}
-                      color="black"
+                      name="controller-fast-backward"    size={30}
+                      color={colorTheme === "dark" ? "white" : "black"}
                     />
-                    <FontAwesome name="play" size={32} color="black" />
+                    <FontAwesome 
+                      name="play" size={32} 
+                      color={colorTheme === "dark" ? "white" : "black"} 
+                    />
                     <Entypo
-                      name="controller-fast-forward"
-                      size={30}
-                      color="black"
+                      name="controller-fast-forward"  size={30}
+                      color={colorTheme === "dark" ? "white" : "black"}
                     />
                   </View>
                 </View>
@@ -173,7 +188,7 @@ const styles = StyleSheet.create({
   },
   container: {
     // flex: 1,
-    backgroundColor: "#F8F8F8",
+    // backgroundColor: "#F8F8F8",
     // backgroundColor: "#313131",       // Dark theme
   },
   break: {
@@ -188,10 +203,10 @@ const styles = StyleSheet.create({
     borderWidth: 0.5,
   },
   optionContainer: {
-    backgroundColor: "white",
+    // backgroundColor: "white",
     // backgroundColor: "#313131",       // Dark theme
-    padding: 10,
-    borderRadius: 10,
+    padding: 8,
+    borderRadius: 20,
   },
   playerOptionContainer: {
     width: "100%",

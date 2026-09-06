@@ -4,11 +4,11 @@
     "slug": "VibeSync",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/logo/main_logo_lightTheme.png",
+    "icon": "./assets/logo/icon.png",
     "scheme": "vibesyncdevmode",
     "userInterfaceStyle": "automatic",
     "ios": {
-      "icon": "./assets/logo/main_logo_lightTheme.png",
+      "icon": "./assets/logo/icon.png",
       "bundleIdentifier": "com.anonymous.VibeSync-DevMode"
     },
     "android": {
@@ -38,9 +38,9 @@
       [
         "expo-splash-screen",
         {
-          "backgroundColor": "#208AEF",
-          "image": "./assets/logo/main_logo_lightTheme.png",
-          "imageWidth": 76
+          "backgroundColor": "#212121",
+          "image": "./assets/logo/icon.png",
+          "imageWidth": 200
         }
       ],
       [

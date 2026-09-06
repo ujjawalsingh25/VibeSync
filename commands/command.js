@@ -4,17 +4,6 @@
 // _____________________________________________________________|
 
 
-// npx expo install react-native-webview
-
-// npx expo install zustand
-// npx expo install expo-media-library
-// npx expo prebuild
-
-// npx expo install expo-dev-client
-// npx expo prebuild
-// npx expo run:android
-
-
 //     Commands
 // ___________________  Connect with Phone __________________________________
 // in Device Manager -->> Universal Serial Bus Devices -->> ADB Interface    |     -->> To verify phone connection
@@ -40,11 +29,16 @@
 // ___________________________________________________________________|
 
 
-// __________   Connect with Expo   ________________________
-// npm install -g expo-cli                                  |      -->> install expo
-// expo --version                                           |        -->> verify installatiom
-// expo --help                                              |        -->> get all commands
-// expo inti folderName                                     |
-// npm i react-native-webview                               |      -->> install webview to run render webpages
-// npx expo start                                           |        -->> run android
+// ______________  Run VibeSync  ___________________________
+// npx expo install expo-dev-client                         |
+// npx expo prebuild                                        |
+// npx expo run:android                                     |
+// npx expo start                                           |
 // _________________________________________________________|
+
+
+
+// ______________  Libraries  ______________
+// npx expo install react-native-webview
+// npx expo install zustand
+// npx expo install expo-media-library
