@@ -22,7 +22,7 @@ export default function AppTabs() {
       {currentTab === "discover" ? <HeaderDiscover /> : <HeaderLogo />}
       <NativeTabs
         backgroundColor={colorTheme === "dark" ? "#181818" : "#F2F2F2"}
-        indicatorColor={colorTheme === "dark" ? "#164E5A" : "#164E5A"}
+        indicatorColor={colorTheme === "dark" ? "#203C4D" : "#E1F5FE"}
         labelStyle={{
           default: {
             color: colorTheme === "dark" ? "#8A8A8A" : "#777777",

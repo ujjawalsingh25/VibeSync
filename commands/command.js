@@ -42,3 +42,6 @@
 // npx expo install react-native-webview
 // npx expo install zustand
 // npx expo install expo-media-library
+
+
+// npm install recyclerlistview
