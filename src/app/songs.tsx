@@ -2,10 +2,9 @@ import {useCallback, useEffect, useMemo, useState } from "react";
 import {DataProvider, LayoutProvider, RecyclerListView} from "recyclerlistview";
 import {Image, StyleSheet, Text, TextInput, TouchableOpacity, View, useWindowDimensions } from "react-native";
 
-
-import { useAudioStore } from "../../store/audioStore";
 import { useToggleThemeStore } from "../../store/toggleThemeStore";
 import OptionModal, {type AudioItem,} from "@/components/OptionModal";
+import { useAudioStore, type AudioFile } from "../../store/audioStore";
 
 import { Ionicons } from "@expo/vector-icons";
 
@@ -27,11 +26,15 @@ const Songs = () => {
   const permissionError = useAudioStore((state) => state.permissionError);
   const loading = useAudioStore((state) => state.loading);
   const getPermission = useAudioStore((state) => state.getPermission);
+  const currentAudio = useAudioStore((state) => state.currentAudio);
+  const isPlaying = useAudioStore((state) => state.isPlaying);
+  const playAudio = useAudioStore((state) => state.playAudio);
+  const toggleAudio = useAudioStore((state) => state.toggleAudio);
 
   const { width } = useWindowDimensions();
 
   const [searchQuery, setSearchQuery] = useState("");
-  const [selectedSong, setSelectedSong] = useState<AudioItem | null>(null);
+  const [selectedSong, setSelectedSong] = useState<AudioFile | null>(null);
   const [optionModalVisible, setOptionModalVisible] = useState(false);
 
   const isDark = colorTheme === "dark";
@@ -52,11 +55,10 @@ const Songs = () => {
   }, [getPermission]);
 
 
-
   // ________ Search songs by filename ____________
   const filteredSongs = useMemo(() => {
     const query = searchQuery.trim().toLowerCase();
-    if (!query) return audioFiles;
+    if (!query)  return audioFiles;
 
     return audioFiles.filter((item) =>
       item.filename.toLowerCase().includes(query)
@@ -66,38 +68,43 @@ const Songs = () => {
   
 
   // ___________  Option Modal Actions ________________
-  const openOptions = useCallback((item: AudioItem) => {
+  const openOptions = useCallback((item: AudioFile) => {
     setSelectedSong(item);
     setOptionModalVisible(true);
   }, []);
-  
+
   const closeOptions = useCallback(() => {
     setOptionModalVisible(false);
   }, []);
   
-  const handlePlayPress = useCallback(() => {
-    if (!selectedSong) return;
-    console.log("Playing Song:", selectedSong.filename);
-    // Connect your audio-player action here.
 
+  const handlePlayPress = useCallback(async () => {
+    if (!selectedSong)  return;
+    
+    console.log("Playing Song:", selectedSong.filename);
+    await playAudio(selectedSong);
     closeOptions();
-  }, [selectedSong, closeOptions]);
+  }, [selectedSong, playAudio, closeOptions]);
+
   
   const handlePlaylistPress = useCallback(() => {
     if (!selectedSong) return;
+    
     console.log("Added to Playlist:", selectedSong.filename);
-    // Connect your playlist action here.
-
     closeOptions();
   }, [selectedSong, closeOptions]);
   // _______________________________________________
 
-
+  const playbackState = useMemo(() => ({
+    currentAudioId: currentAudio?.id,
+    isPlaying,
+  }), [currentAudio?.id, isPlaying]);
 
 
   // ___________  RecyclerListView data, layout and row provider ________________
   const dataProvider = useMemo(
-    () => new DataProvider((r1, r2) => r1.id !== r2.id).cloneWithRows(filteredSongs),
+    // () => new DataProvider((r1, r2) => r1.id !== r2.id).cloneWithRows(filteredSongs),
+    () => new DataProvider((r1, r2) => r1 !== r2).cloneWithRows(filteredSongs),
     [filteredSongs]
   );
 
@@ -118,40 +125,59 @@ const Songs = () => {
   const rowRenderer = useCallback(
     (
       _type: string | number,
-      item: AudioItem,
+      item: AudioFile,
       index: number
-    ) => (
+    ) => {
+      const isCurrentSong = currentAudio?.id === item.id;
+
+      return(
       <TouchableOpacity
         activeOpacity={0.75}
         style={[styles.songCard,{backgroundColor: colors.card }]}
         onPress={() => {
           console.log("Selected Song:", item.filename);
-
+          void toggleAudio(item);
         }}
+        accessibilityRole="button"
+        accessibilityLabel={`Play ${item.filename}`}
       >
+        {/* Album Art */}
         <View style={[styles.albumArt,{backgroundColor: colors.albumBackground}]}>
           <Image
             style={styles.albumImage}
             source={require("@/assets/images/default_PlayerImg.png")}
+            resizeMode="cover"
           />
         </View>
 
-
+        {/* Song Information */}
         <View style={styles.songInfo}>
-          <Text numberOfLines={1} style={[styles.songTitle,{color: colors.text}]}>
-            {item.filename}
-          </Text>
+          <View style={styles.songTitleRow}>
+            <Text 
+              numberOfLines={1}
+              style={[styles.songTitle,{color: isCurrentSong ? colors.accent : colors.text }]}
+            >
+              {item.filename}
+            </Text>
+          </View>
 
-          <Text numberOfLines={1} style={[styles.songSubtitle,{color: colors.secondaryText}]}>
-            VibeSync • Track {index + 1}
+          <Text numberOfLines={1} style={[styles.songSubtitle, { color: colors.secondaryText }]}>
+            {isCurrentSong
+              ? isPlaying ? "Now Playing" : "Paused"
+              : `VibeSync • Track ${index + 1}`
+            }
           </Text>
         </View>
-        
+
+
+
+
+        {/* Duration */}
         <Text style={[styles.duration,{color: colors.secondaryText }]}>
           {formatDuration(item.duration)}
         </Text>
 
-
+        {/* More Options Button */}
         <TouchableOpacity
           style={styles.moreButton}
           onPress={(event) => {
@@ -167,8 +193,7 @@ const Songs = () => {
         </TouchableOpacity>
 
       </TouchableOpacity>
-    ),
-    [colors, openOptions]
+    )},  [colors, openOptions, currentAudio?.id, isPlaying, toggleAudio,]
   );
   // _____________________________________________________________________
 
@@ -289,6 +314,7 @@ const Songs = () => {
           dataProvider={dataProvider}
           layoutProvider={layoutProvider}
           rowRenderer={rowRenderer}
+          extendedState={playbackState}
           renderAheadOffset={500}
           showsVerticalScrollIndicator={false}
           canChangeSize
@@ -313,7 +339,6 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingHorizontal: 18,
   },
-
   header: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -321,12 +346,10 @@ const styles = StyleSheet.create({
     paddingTop: 18,
     paddingBottom: 20,
   },
-
   title: {
     fontSize: 32,
     fontWeight: "700",
   },
-
   headerButton: {
     width: 45,
     height: 45,
@@ -334,7 +357,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-
   searchContainer: {
     height: 50,
     borderRadius: 15,
@@ -343,34 +365,28 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     marginBottom: 20,
   },
-
   searchInput: {
     flex: 1,
     fontSize: 15,
     marginLeft: 10,
     marginRight: 10,
   },
-
   songCountContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
     marginBottom: 12,
   },
-
   songCount: {
     fontSize: 17,
     fontWeight: "600",
   },
-
   sortText: {
     fontSize: 13,
   },
-
   recyclerList: {
     flex: 1,
   },
-
   songCard: {
     flexDirection: "row",
     alignItems: "center",
@@ -379,7 +395,6 @@ const styles = StyleSheet.create({
     marginBottom: 8,
     height: 70,
   },
-
   albumArt: {
     width: 50,
     height: 50,
@@ -388,47 +403,55 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-
   albumImage: {
     width: "100%",
     height: "100%",
     resizeMode: "cover",
   },
-
+  // playingIndicator: {
+  //   width: 27,
+  //   height: 27,
+  //   borderRadius: 14,
+  //   backgroundColor: '#8B5CF6',
+  //   alignItems: "center",
+  //   justifyContent: "center",
+  // },
   songInfo: {
     flex: 1,
-    marginLeft: 13,
+    justifyContent: "center",
+    marginLeft: 12,
     marginRight: 8,
+    minWidth: 0,
   },
-
+  songTitleRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8,
+  },
   songTitle: {
     fontSize: 15,
     fontWeight: "600",
+    flexShrink: 1,
   },
-
   songSubtitle: {
     fontSize: 12,
     marginTop: 5,
   },
-
   duration: {
     fontSize: 12,
     marginRight: 4,
   },
-
   moreButton: {
     padding: 5,
     justifyContent: "center",
     alignItems: "center",
   },
-
   centerContainer: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
     paddingHorizontal: 35,
   },
-
   permissionIcon: {
     width: 80,
     height: 80,
@@ -437,13 +460,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginBottom: 20,
   },
-
   permissionTitle: {
     fontSize: 21,
     fontWeight: "700",
     textAlign: "center",
   },
-
   permissionText: {
     fontSize: 14,
     textAlign: "center",
@@ -451,24 +472,20 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginBottom: 25,
   },
-
   permissionButton: {
     paddingHorizontal: 25,
     paddingVertical: 13,
     borderRadius: 25,
   },
-
   permissionButtonText: {
     color: "#FFFFFF",
     fontSize: 14,
     fontWeight: "600",
   },
-
   loadingText: {
     fontSize: 15,
     marginTop: 15,
   },
-
   emptyContainer: {
     flex: 1,
     justifyContent: "center",
@@ -476,7 +493,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingBottom: 100,
   },
-
   emptyIcon: {
     width: 85,
     height: 85,
@@ -485,12 +501,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginBottom: 18,
   },
-
   emptyTitle: {
     fontSize: 20,
     fontWeight: "700",
   },
-
   emptyText: {
     fontSize: 14,
     textAlign: "center",
